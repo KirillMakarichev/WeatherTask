@@ -1,4 +1,6 @@
-﻿namespace WeatherForecast.Models;
+﻿using WeatherForecast.Models;
+
+namespace WeatherForecast.ViewModels;
 
 public class FilesLoadingResponse
 {

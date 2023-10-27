@@ -1,6 +1,6 @@
 ﻿using WeatherForecast.Database.Models;
 
-namespace WeatherForecast.Models;
+namespace WeatherForecast.ViewModels;
 
 public class FilteredData
 {

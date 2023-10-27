@@ -1,6 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http.HttpResults
-@using WeatherForecast.Models
-@model WeatherForecast.Models.FilesLoadingResponse
+﻿@using WeatherForecast.Models
+@model WeatherForecast.ViewModels.FilesLoadingResponse
 @foreach (var item in Model.Statuses)
 {
     if (item.status == FileLoadingStatus.Ok)

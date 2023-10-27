@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeatherForecast.Database.Models;
-using WeatherForecast.Models;
 
 namespace WeatherForecast.Database;
 

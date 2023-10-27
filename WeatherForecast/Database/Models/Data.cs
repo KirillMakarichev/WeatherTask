@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WeatherForecast.Database.Models;
+﻿namespace WeatherForecast.Database.Models;
 
 public class Data
 {

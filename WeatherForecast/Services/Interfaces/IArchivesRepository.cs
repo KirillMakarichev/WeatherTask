@@ -1,5 +1,6 @@
 ﻿using WeatherForecast.Database.Models;
 using WeatherForecast.Models;
+using WeatherForecast.ViewModels;
 
 namespace WeatherForecast.Services.Interfaces;
 

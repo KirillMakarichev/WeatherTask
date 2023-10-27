@@ -3,6 +3,7 @@ using WeatherForecast.Database;
 using WeatherForecast.Database.Models;
 using WeatherForecast.Models;
 using WeatherForecast.Services.Interfaces;
+using WeatherForecast.ViewModels;
 
 namespace WeatherForecast.Services;
 
