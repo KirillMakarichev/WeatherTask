@@ -47,6 +47,9 @@ public class XlsxParser : IWeatherParser
                 }
             }
 
+            if(!data.Any()) return ReturnStatus<List<WeatherData>, FileLoadingStatus>.Create(new List<WeatherData>(), 
+                FileLoadingStatus.WrongExcelFormat);
+            
             return ReturnStatus<List<WeatherData>, FileLoadingStatus>.Create(data, 
                 FileLoadingStatus.Ok);
         }
