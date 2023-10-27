@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Загрузка архивов";
+}
+
+<style>
+
+</style>
+
+<h1>@ViewData["Title"]</h1>
+
+<label for="fileInput" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i> Выберите файлы
+</label>
+<input type="file" id="fileInput" multiple style="display:none;">
+<button onclick="getFiles()" class="btn btn-primary">Загрузить файлы</button>
+<ul id="fileList" class="fileList"></ul>
+
+<script type="text/javascript">
+
+function getFiles() {
+            var fileInput = document.getElementById('fileInput');
+            fileList = document.getElementById('fileList');
+
+            fileList.innerHTML = '';
+
+            files = fileInput.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var listItem = document.createElement('li');
+                listItem.className = 'loading'
+                listItem.textContent = files[i].name;
+                fileList.appendChild(listItem);
+            }
+           
+            if (files.length > 0) {
+                var formData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('xlsxFiles', files[i]);
+                }
+   
+                uploadFiles(formData, function (data) {
+                   $("#fileList").html(data);
+                   }, null)
+                }
+            else {
+                alert('Выберите файлы для загрузки.');
+            }
+        }
+</script>

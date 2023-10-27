@@ -1,0 +1,35 @@
+﻿@model List<WeatherForecast.Models.WeatherData>
+
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Температура</th>
+        <th>Осадки</th>
+        <th>Относительная влажность</th>
+        <th>Точка росы, градусы Цельсия</th>
+        <th>Атмосферное давление, мм рт. ст.</th>
+        <th>Направление ветра</th>
+        <th>Скорость ветра, м/с</th>
+        <th>Облачность, %</th>
+        <th>Горизонтальная видимость, км</th>
+        <th>Погодные явления</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var data in Model)
+    {
+        <tr>
+            <td>@data.Date</td>
+            <td>@data.Temperature</td>
+            <td>@data.RelativeHumidity</td>
+            <td>@data.DewPoint</td>
+            <td>@data.AtmosphericPressure</td>
+            <td>@data.WindDirection</td>
+            <td>@data.WindSpeed</td>
+            <td>@data.CloudinessPercentage</td>
+            <td>@data.Cloudiness</td>
+            <td>@data.Visibility</td>
+            <td>@data.WeatherPhenomenon</td>
+        </tr>
+    }
+    </tbody>

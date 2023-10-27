@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Http.HttpResults
+@using WeatherForecast.Models
+@model WeatherForecast.Models.FilesLoadingResponse
+@foreach (var item in Model.Statuses)
+{
+    if (item.status == FileLoadingStatus.Ok)
+    {
+        <li id="file-@item.name" class="loaded-success">@item.name</li>
+    }
+    else
+    {
+        <li id="file-@item.name" class="loading-failed">
+            <div class="block_container">
+                <div class="block">
+                    <text class="test" data-toggle="tooltip" data-placement="top" title="Причина: @item.status">@item.name</text>
+                </div>
+                <div class="block" data-name="@item.name" onclick='sceSelect(this)'>
+                    <span style='font-size:20px;'>&#8635;</span>
+                </div>
+            </div>
+        </li>
+    }
+}
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+
+function sceSelect(param) {
+    var name = param.getAttribute("data-name")
+    
+    var file;
+    
+    for (var i = 0; i < files.length; i++) {
+        if (files[i].name === name){
+            file = files[i]
+            break
+        }
+    }
+    
+    var formData = new FormData();
+    formData.append('xlsxFiles', file);
+
+    uploadFiles(formData, function (data) {
+           var li = fileList.getElementsByTagName('li');
+           var fileEl = document.getElementById(`file-${name}`).value;
+           fileEl.innerHTML = data;
+       }, null)
+}
+
+
+</script>

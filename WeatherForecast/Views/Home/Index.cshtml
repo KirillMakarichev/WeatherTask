@@ -1,0 +1,124 @@
+﻿@using System.Globalization
+@model WeatherForecast.Models.ArchivesViewModel
+@{
+    ViewData["Title"] = "Просмотр архивов погодных условий";
+    var culture = CultureInfo.CurrentCulture;
+    var months = Enumerable.Range(1, 12)
+        .Select(x => (x, culture.TextInfo.ToTitleCase(culture.DateTimeFormat.GetMonthName(x)))).ToList();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="get" id="filter-form" class="margin">
+    <div class="form-row">
+        <div class="col-md-3">
+            <select class="form-control" name="year">
+                <option value="">Все года</option>
+                @foreach (var year in Model.Years)
+                {
+                    <option value="@year">@year</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" name="month">
+                <option value="">Все месяцы</option>
+
+                @foreach (var month in months)
+                {
+                    <option value="@month.x">@month.Item2</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" id="filter-button">Фильтровать</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered" id="table-body">
+</table>
+
+<div class="pagination">
+    <button id="prev-button" class="btn btn-primary element">Предыдущая</button>
+    <button id="next-button" class="btn btn-primary element">Следующая</button>
+    <select id="itemsPerPageSelect" class="custom-select">
+        @for (var i = 1; i < 6; i++)
+        {
+            var count = i * 10;
+            <option value="@count">@count</option>
+        }
+    </select>
+    <p id="elementsCount"></p>
+</div>
+
+<script type="text/javascript">
+        var perPage = $("#itemsPerPageSelect").val()
+        var currentPage = 0; // Текущая страница
+        var currentCount = 0;
+        var totalPages = 0;
+        
+        $(document).ready(function () {
+            updatePagination()
+        });
+        
+        $("#filter-button").click(function () {
+           currentPage = 0; // Текущая страница
+           currentCount = 0;
+            
+           updatePagination()
+        });
+        
+        $("#itemsPerPageSelect").change(function () {
+            perPage = $("#itemsPerPageSelect").val()
+            currentPage = 0;
+            
+            updatePagination();
+        });
+        
+        // Обработка нажатия на кнопку "Предыдущая"
+        $("#prev-button").click(function () {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePagination();
+            }
+        });
+
+        // Обработка нажатия на кнопку "Следующая"
+        $("#next-button").click(function () {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                updatePagination();
+            }
+        });
+        
+        function updateTable(){
+            var queryData = {
+                "year" : $("#filter-form [name='year']").val(),
+                "month" : $("#filter-form [name='month']").val(),
+                "take" : perPage,
+                "skip" : perPage * currentPage
+            }
+            
+            return new Promise(function(resolve, reject) {
+                    $.get("@Url.Action("FilterData", "Home")", queryData, function (data) {
+                        $("#table-body").html(data["partialView"]);
+                        currentCount = data["count"];
+                        totalPages = Math.ceil(currentCount / perPage);
+            
+                        resolve(); // Успешное завершение промиса
+                    });
+                });
+        }
+        
+        function updatePagination() {
+            updateTable().then(function () {
+             console.log(totalPages);
+             console.log(currentCount);
+     
+             $("#prev-button").prop("disabled", currentPage === 0);
+             $("#next-button").prop("disabled", currentPage === totalPages - 1);
+             $("#elementsCount").text(`Страница ${currentPage + 1} из ${totalPages}`);
+         });
+        }
+</script>
